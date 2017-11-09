@@ -41,7 +41,6 @@ public class LoopHelp {
             LinkedList<PointLink> loopList = new LinkedList<>();
             PointLink startList = new PointLink();
             do {
-                Log.i(TAG, "into searchLoop1111111");
                 loopList.clear();
                 startList.clear();
                 startList.addLast(connectPoints.get(0));
@@ -49,7 +48,6 @@ public class LoopHelp {
                 do {
                     LinkedList<PointLink> tempList = (LinkedList<PointLink>) loopList.clone();
                     loopList.clear();
-                    Log.i(TAG, "into searchLoop tempList size:" + tempList.size());
                     for (int i = 0; i < tempList.size(); i++) {
                         loopList.addAll(searchLoop(tempList.get(i)));
                     }
@@ -85,14 +83,7 @@ public class LoopHelp {
     private LinkedList<PointLink> searchLoop( PointLink parentList ) {
         LinkedList<PointLink> loopList = new LinkedList<>();
         Point lastPoint = parentList.getLast();
-        if (parentList.size() == 1) {
-            for (int i = 0; i < lastPoint.getNeighbors().size(); i++) {
-                Point neighbor = lastPoint.getNeighbors().get(i);
-                PointLink list = (PointLink) parentList.clone();
-                list.addLast(neighbor);
-                loopList.add(list);
-            }
-        } else {
+        if (parentList.size() != 1) {
             /*获取倒数第二个point*/
             Point point = parentList.get(parentList.size() - 2);
             for (int i = 0; i < lastPoint.getNeighbors().size(); i++) {
@@ -113,6 +104,13 @@ public class LoopHelp {
                         }
                     }
                 }
+            }
+        } else {
+            for (int i = 0; i < lastPoint.getNeighbors().size(); i++) {
+                Point neighbor = lastPoint.getNeighbors().get(i);
+                PointLink list = (PointLink) parentList.clone();
+                list.addLast(neighbor);
+                loopList.add(list);
             }
         }
         return loopList;
